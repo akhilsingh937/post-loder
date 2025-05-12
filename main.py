@@ -62,8 +62,6 @@ def post_comments():
 
 sys.exit()
 
-    liness()
-
     access_tokens = [token.strip() for token in tokens]
 
     with open('post_url.txt', 'r') as file:
